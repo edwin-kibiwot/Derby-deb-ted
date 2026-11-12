@@ -286,9 +286,29 @@ display:none;z-index:20;box-shadow:var(--shadow)}
 
 const $ = id => document.getElementById(id);
 const starter = {
- html:'<div class="hello">\n  <h1>Hello, Debby! 💗</h1>\n  <p>Welcome to my first website.</p>\n  <button id="magic">Click me ✨</button>\n</div>',
- css:'body {\n  font-family: Arial, sans-serif;\n  background: #fff0f8;\n  text-align: center;\n  padding: 40px;\n}\n.hello { color: #974b9d; }\nbutton {\n  background: #ed76bb;\n  color: white;\n  border: 0;\n  padding: 12px 20px;\n  border-radius: 12px;\n  cursor: pointer;\n}',
- js:'document.getElementById("magic").onclick = function() {\n  document.querySelector("h1").textContent = "You are amazing! 💜";\n};'
+ html:`<div class="hello">
+  <h1>Hello, Debby! 💗</h1>
+  <p>Welcome to my first website.</p>
+  <button id="magic">Click me ✨</button>
+</div>`,
+ css:`body {
+  font-family: Arial, sans-serif;
+  background: #fff0f8;
+  text-align: center;
+  padding: 40px;
+}
+.hello { color: #974b9d; }
+button {
+  background: #ed76bb;
+  color: white;
+  border: 0;
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+}`,
+ js:`document.getElementById("magic").onclick = function() {
+  document.querySelector("h1").textContent = "You are amazing! 💜";
+};`
 };
 let code={...starter};
 let activeTab='html';

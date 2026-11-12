@@ -1,0 +1,475 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debby.dev | Creative Tech Space</title>
+<style>
+:root{
+  --bg:#fff7fc;--panel:#fff;--text:#35243b;--muted:#907d96;
+  --pink:#f16bb4;--purple:#9468ed;--line:#f1e4f0;
+  --soft:#fce8f5;--shadow:0 8px 30px #8b4b8012;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:Inter,system-ui,Arial,sans-serif}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{display:flex;min-height:100vh}
+.sidebar{width:235px;background:white;border-right:1px solid var(--line);
+padding:25px 17px;display:flex;flex-direction:column;gap:25px}
+.logo{font-size:23px;font-weight:900;color:var(--purple);padding:0 9px}
+.logo span{color:var(--pink)}
+.profile{display:flex;align-items:center;gap:11px;padding:12px;
+background:var(--soft);border-radius:15px}
+.avatar{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,#f58ac8,#9674f2);
+display:grid;place-items:center;color:white;font-weight:bold}
+.profile small{display:block;color:var(--muted);font-size:11px}
+.nav-label{font-size:10px;color:var(--muted);font-weight:800;
+letter-spacing:1.5px;padding:0 10px}
+.nav{display:grid;gap:7px}
+.nav button{border:0;background:transparent;text-align:left;padding:12px;
+border-radius:12px;color:#816f88;font-weight:650}
+.nav button.active,.nav button:hover{background:var(--soft);color:#b64b9a}
+.sidebar-bottom{margin-top:auto}
+.main{flex:1;min-width:0;padding:30px 35px;max-width:1500px;margin:auto;width:100%}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:28px}
+.topbar h1{font-size:25px;margin:0}
+.topbar p{margin:5px 0;color:var(--muted);font-size:13px}
+.top-actions{display:flex;gap:9px}
+.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:750}
+.primary{background:linear-gradient(110deg,var(--pink),var(--purple));color:white}
+.secondary{background:var(--soft);color:#a34c9c}
+.icon-btn{border:1px solid var(--line);background:white;border-radius:11px;padding:10px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:19px;
+padding:20px;box-shadow:var(--shadow);min-width:0}
+.stat{font-size:27px;font-weight:850;margin-top:12px}
+.muted{color:var(--muted);font-size:13px}
+.card-icon{font-size:24px}
+.section-title{font-size:17px;margin:27px 0 13px}
+.welcome{background:linear-gradient(115deg,#fbd9ee,#e8dcff);
+border:0;padding:25px;display:flex;justify-content:space-between;align-items:center;
+gap:15px;overflow:hidden}
+.welcome h2{margin:0 0 8px;font-size:23px}
+.welcome p{margin:0;color:#735c7b;font-size:13px}
+.welcome-art{font-size:65px}
+.two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:17px}
+.project-row{display:flex;justify-content:space-between;align-items:center;
+gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
+.project-row:last-child{border:0}
+.project-name{font-weight:750}
+.project-actions{display:flex;gap:6px}
+.small-btn{border:0;background:var(--soft);color:#a34c9c;
+border-radius:8px;padding:7px 10px;font-size:12px}
+.editor-layout{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.editor-box{background:#241d30;border-radius:16px;overflow:hidden;color:white}
+.editor-head{display:flex;justify-content:space-between;align-items:center;
+padding:12px 14px;background:#30243d}
+.tabs{display:flex;gap:5px}
+.tab{border:0;padding:8px 11px;border-radius:8px;background:transparent;color:#c9b8d5}
+.tab.active{background:#574064;color:white}
+textarea.code{width:100%;height:310px;resize:vertical;border:0;outline:0;
+background:#241d30;color:#f9d8f0;padding:17px;
+font:13px/1.65 ui-monospace,monospace;tab-size:2}
+.preview-box{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.preview-head{padding:12px 15px;background:#fff0f8;font-weight:750}
+iframe{width:100%;height:350px;border:0;background:white}
+.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}
+.challenge{padding:17px;border:1px solid var(--line);border-radius:14px;margin:10px 0}
+.challenge h3{margin:0 0 8px}
+.challenge p{font-size:13px;color:var(--muted)}
+.challenge-answer{display:none;margin-top:10px;background:var(--soft);
+padding:12px;border-radius:10px;font-size:13px}
+.quiz-option{display:block;width:100%;text-align:left;padding:13px;
+border:1px solid var(--line);background:white;border-radius:11px;margin:8px 0}
+.quiz-option:hover{background:var(--soft)}
+.notice{padding:12px;background:var(--soft);border-radius:12px;
+font-size:13px;color:#86517d;margin-top:12px}
+.empty{text-align:center;color:var(--muted);padding:25px}
+.page{display:none}
+.page.active{display:block}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 0 12px}
+#toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);
+background:#392640;color:white;padding:12px 18px;border-radius:12px;
+display:none;z-index:20;box-shadow:var(--shadow)}
+@media(max-width:850px){
+ .sidebar{width:190px}
+ .main{padding:22px 18px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .two-col{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+ .app{display:block;padding-bottom:75px}
+ .sidebar{position:fixed;z-index:10;bottom:0;left:0;right:0;width:100%;
+ height:68px;padding:7px 5px;border-right:0;border-top:1px solid var(--line);
+ display:block}
+ .logo,.profile,.nav-label,.sidebar-bottom{display:none}
+ .nav{display:flex;justify-content:space-around;gap:2px}
+ .nav button{font-size:10px;text-align:center;padding:10px 5px;flex:1}
+ .main{padding:20px 14px}
+ .topbar h1{font-size:21px}
+ .topbar p{font-size:11px}
+ .top-actions .btn{padding:9px;font-size:11px}
+ .grid{grid-template-columns:1fr 1fr;gap:9px}
+ .card{padding:14px}
+ .welcome{padding:19px}
+ .welcome h2{font-size:19px}
+ .welcome-art{font-size:43px}
+ .editor-layout{grid-template-columns:1fr}
+ textarea.code{height:220px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">Debby<span>.dev</span> ✿</div>
+  <div class="profile">
+    <div class="avatar">D</div>
+    <div><b>Debby</b><small>Creative developer</small></div>
+  </div>
+  <div>
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="nav">
+      <button class="active" data-page="home">🏠 Home</button>
+      <button data-page="editor">💻 Playground</button>
+      <button data-page="projects">📁 Projects</button>
+      <button data-page="challenges">🧠 Challenges</button>
+      <button data-page="quiz">✨ Tech Quiz</button>
+    </nav>
+  </div>
+  <div class="sidebar-bottom muted">Made with teddy 💗 for Debby</div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div>
+      <h1 id="pageTitle">Welcome, Debby! ur future starts here!!💗</h1>
+      <p id="pageSubtitle">Your little corner of the tech world.</p>
+    </div>
+    <div class="top-actions">
+      <button class="icon-btn" onclick="toggleTheme()" title="Change theme">🌙</button>
+      <button class="btn primary" onclick="newProject()">＋ New project</button>
+    </div>
+  </header>
+
+  <section class="page active" id="home">
+    <div class="card welcome">
+      <div>
+        <h2>Dream it. Code it. Build it. ✨</h2>
+        <p>Every great developer started with one line of code.<br>
+        Your next big idea starts here!</p>
+        <br><button class="btn primary" onclick="go('editor')">Start coding →</button>
+      </div>
+      <div class="welcome-art">👩🏽‍💻</div>
+    </div>
+
+    <h2 class="section-title">Your workspace</h2>
+    <div class="grid">
+      <div class="card"><div class="card-icon">📁</div>
+        <div class="muted">Saved projects</div><div class="stat" id="projectCount">0</div></div>
+      <div class="card"><div class="card-icon">⚡</div>
+        <div class="muted">Coding language</div><div class="stat">3</div>
+        <div class="muted">HTML · CSS · JS</div></div>
+      <div class="card"><div class="card-icon">🌸</div>
+        <div class="muted">Your coding space</div><div class="stat">100%</div>
+        <div class="muted">Ready for ideas</div></div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <h2 class="section-title">Recent projects</h2>
+        <div class="card" id="recentProjects"></div>
+      </div>
+      <div>
+        <h2 class="section-title">Today's inspiration</h2>
+        <div class="card">
+          <div class="card-icon">💜</div>
+          <h3>Keep creating!</h3>
+          <p class="muted">You don't need to know everything to start building. Learn one thing, try one thing, and keep going.</p>
+          <div class="notice">Tip: Save your code often so your ideas stay safe in this browser.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="editor">
+    <div class="card">
+      <h2 style="margin-top:0">Code Playground 💻</h2>
+      <p class="muted">Write HTML, CSS and JavaScript, then run your creation.</p>
+      <input id="codeTitle" value="My first website" aria-label="Project title"
+       style="width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin:8px 0 15px">
+      <div class="editor-layout">
+        <div class="editor-box">
+          <div class="editor-head">
+            <div class="tabs">
+              <button class="tab active" data-tab="html">HTML</button>
+              <button class="tab" data-tab="css">CSS</button>
+              <button class="tab" data-tab="js">JS</button>
+            </div>
+            <span style="font-size:11px;color:#c9b8d5">Editor</span>
+          </div>
+          <textarea id="codeEditor" class="code" spellcheck="false"
+           aria-label="Code editor"></textarea>
+        </div>
+        <div class="preview-box">
+          <div class="preview-head">🌷 Live preview</div>
+          <iframe id="preview" title="Website preview" sandbox="allow-scripts"></iframe>
+        </div>
+      </div>
+      <div class="editor-actions">
+        <button class="btn primary" onclick="runCode()">▶ Run code</button>
+        <button class="btn secondary" onclick="saveCurrent()">💾 Save project</button>
+        <button class="btn secondary" onclick="downloadCode()">⬇ Download HTML</button>
+        <button class="btn secondary" onclick="resetCode()">↺ Reset</button>
+      </div>
+      <p class="muted">Your saved projects stay in this browser on this device.</p>
+    </div>
+  </section>
+
+  <section class="page" id="projects">
+    <div class="card">
+      <h2 style="margin-top:0">My projects 📁</h2>
+      <p class="muted">Your saved coding creations.</p>
+      <div id="allProjects"></div>
+    </div>
+  </section>
+
+  <section class="page" id="challenges">
+    <div class="card">
+      <h2 style="margin-top:0">Coding challenges 🧠</h2>
+      <p class="muted">Try these mini challenges to practise your skills.</p>
+      <div class="challenge">
+        <h3>🌸 Challenge 1: HTML</h3>
+        <p>Which HTML tag creates the biggest heading?</p>
+        <button class="small-btn" onclick="answer(1)">Show answer</button>
+        <div class="challenge-answer" id="answer1">The <b>&lt;h1&gt;</b> tag creates the biggest heading.</div>
+      </div>
+      <div class="challenge">
+        <h3>💜 Challenge 2: CSS</h3>
+        <p>Which CSS property changes the text colour?</p>
+        <button class="small-btn" onclick="answer(2)">Show answer</button>
+        <div class="challenge-answer" id="answer2">The <b>color</b> property changes text colour.</div>
+      </div>
+      <div class="challenge">
+        <h3>✨ Challenge 3: JavaScript</h3>
+        <p>Which keyword declares a variable that can be reassigned?</p>
+        <button class="small-btn" onclick="answer(3)">Show answer</button>
+        <div class="challenge-answer" id="answer3">Use <b>let</b> to declare a reassignable variable.</div>
+      </div>
+      <div class="challenge">
+        <h3>🚀 Challenge 4: HTML</h3>
+        <p>Which attribute gives an image its source file?</p>
+        <button class="small-btn" onclick="answer(4)">Show answer</button>
+        <div class="challenge-answer" id="answer4">The <b>src</b> attribute sets the image source.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="quiz">
+    <div class="card">
+      <h2 style="margin-top:0">The Tech Quiz ✨</h2>
+      <p class="muted">Test your HTML, CSS and JavaScript knowledge.</p>
+      <div id="quizArea"></div>
+    </div>
+  </section>
+
+  <footer>Made with 💗 for Debby · Debby.dev</footer>
+</main>
+</div>
+<div id="toast"></div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const starter = {
+ html:'<div class="hello">\\n  <h1>Hello, Debby! 💗</h1>\\n  <p>Welcome to my first website.</p>\\n  <button id="magic">Click me ✨</button>\\n</div>',
+ css:'body {\\n  font-family: Arial, sans-serif;\\n  background: #fff0f8;\\n  text-align: center;\\n  padding: 40px;\\n}\\n.hello { color: #974b9d; }\\nbutton {\\n  background: #ed76bb;\\n  color: white;\\n  border: 0;\\n  padding: 12px 20px;\\n  border-radius: 12px;\\n  cursor: pointer;\\n}',
+ js:'document.getElementById("magic").onclick = function() {\\n  document.querySelector("h1").textContent = "You are amazing! 💜";\\n};'
+};
+let code={...starter};
+let activeTab='html';
+let currentId=null;
+let quizIndex=0;
+let quizScore=0;
+let quizAnswered=false;
+
+const quizQuestions=[
+ {q:'What does HTML stand for?',a:['Hyper Text Markup Language','High Tech Modern Language','Home Tool Markup Link'],correct:0},
+ {q:'Which CSS property changes the background?',a:['font-size','background-color','text-align'],correct:1},
+ {q:'Which symbol starts a JavaScript single-line comment?',a:['//','##','<!--'],correct:0},
+ {q:'Which method selects an element by its ID?',a:['getElementById()','getClass()','selectID()'],correct:0},
+ {q:'Which tag adds JavaScript to an HTML page?',a:['<css>','<script>','<code>'],correct:1}
+];
+
+function getProjects(){
+ try{return JSON.parse(localStorage.getItem('debbyProjects')||'[]')}
+ catch(e){return []}
+}
+function storeProjects(list){
+ try{localStorage.setItem('debbyProjects',JSON.stringify(list));return true}
+ catch(e){notify('Storage is full or unavailable.');return false}
+}
+function notify(message){
+ const t=$('toast');t.textContent=message;t.style.display='block';
+ clearTimeout(window.toastTimer);
+ window.toastTimer=setTimeout(()=>t.style.display='none',2400);
+}
+function go(page){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ $(page).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+ const names={home:['Welcome, Debby! 💗','Your little corner of the tech world.'],
+ editor:['Code Playground 💻','Create something wonderful.'],
+ projects:['Your Projects 📁','Your saved creations.'],
+ challenges:['Coding Challenges 🧠','Learn by trying.'],
+ quiz:['Tech Quiz ✨','Test what you know.']};
+ $('pageTitle').textContent=names[page][0];
+ $('pageSubtitle').textContent=names[page][1];
+ if(page==='projects')renderProjects();
+ if(page==='home')renderHome();
+ if(page==='quiz' && quizIndex===0 && !quizAnswered)renderQuiz();
+ window.scrollTo(0,0);
+}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+
+function setTab(tab){
+ activeTab=tab;
+ document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+ $('codeEditor').value=code[tab];
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+ code[activeTab]=$('codeEditor').value;
+ setTab(b.dataset.tab);
+}));
+$('codeEditor').addEventListener('input',()=>{code[activeTab]=$('codeEditor').value});
+
+function runCode(){
+ code[activeTab]=$('codeEditor').value;
+ const html=code.html.replace(/<\/script/gi,'<\\/script');
+ const css=code.css.replace(/<\/style/gi,'<\\/style');
+ const js=code.js.replace(/<\/script/gi,'<\\/script');
+ const documentCode='<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style></head><body>'+html+'<script>'+js+'<\/script></body></html>';
+ $('preview').srcdoc=documentCode;
+ notify('Preview updated ✨');
+}
+function resetCode(){
+ if(!confirm('Reset the editor to the starter code?'))return;
+ code={...starter};setTab(activeTab);runCode();notify('Starter code restored.');
+}
+function newProject(){
+ code={...starter};currentId=null;$('codeTitle').value='My new project';
+ setTab('html');go('editor');runCode();
+}
+function saveCurrent(){
+ code[activeTab]=$('codeEditor').value;
+ const title=$('codeTitle').value.trim()||'Untitled project';
+ let list=getProjects();
+ const id=currentId||Date.now();
+ const project={id,title,code:{...code},updated:new Date().toLocaleString()};
+ const index=list.findIndex(p=>p.id===id);
+ if(index>=0)list[index]=project;else list.unshift(project);
+ if(storeProjects(list)){currentId=id;renderHome();notify('Project saved 💗')}
+}
+function openProject(id){
+ const p=getProjects().find(x=>x.id===id);
+ if(!p)return notify('Project not found.');
+ code={...starter,...p.code};currentId=p.id;
+ $('codeTitle').value=p.title;setTab('html');go('editor');runCode();
+}
+function deleteProject(id){
+ if(!confirm('Delete this project?'))return;
+ storeProjects(getProjects().filter(p=>p.id!==id));
+ renderProjects();renderHome();notify('Project deleted.');
+}
+function projectMarkup(p){
+ const safeTitle=escapeHTML(p.title);
+ return '<div class="project-row"><div><div class="project-name">📄 '+safeTitle+'</div><div class="muted">'+escapeHTML(p.updated||'Saved project')+'</div></div><div class="project-actions"><button class="small-btn" onclick="openProject('+Number(p.id)+')">Open</button><button class="small-btn" onclick="deleteProject('+Number(p.id)+')">Delete</button></div></div>';
+}
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function renderProjects(){
+ const list=getProjects();
+ $('allProjects').innerHTML=list.length?list.map(projectMarkup).join(''):'<div class="empty">🌷 No projects yet. Start coding and save your first project!</div>';
+}
+function renderHome(){
+ const list=getProjects();
+ $('projectCount').textContent=list.length;
+ $('recentProjects').innerHTML=list.length?list.slice(0,4).map(projectMarkup).join(''):'<div class="empty">No projects saved yet. Your first creation is waiting!</div>';
+}
+function downloadCode(){
+ code[activeTab]=$('codeEditor').value;
+ const css=code.css.replace(/<\/style/gi,'<\\/style');
+ const js=code.js.replace(/<\/script/gi,'<\\/script');
+ const output='<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escapeHTML($('codeTitle').value)+'</title><style>'+css+'</style></head><body>'+code.html+'<script>'+js+'<\/script></body></html>';
+ const blob=new Blob([output],{type:'text/html'});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download='my-website.html';
+ document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+ notify('HTML file downloaded.');
+}
+function answer(n){
+ const el=$('answer'+n);
+ el.style.display=el.style.display==='block'?'none':'block';
+}
+function renderQuiz(){
+ const q=quizQuestions[quizIndex];
+ if(!q){
+  $('quizArea').innerHTML='<h2>You finished! 🎉</h2><p>Your score: <b>'+quizScore+' / '+quizQuestions.length+'</b></p><button class="btn primary" onclick="restartQuiz()">Try again</button>';
+  return;
+ }
+ quizAnswered=false;
+ $('quizArea').innerHTML='<p class="muted">Question '+(quizIndex+1)+' of '+quizQuestions.length+'</p><h3>'+q.q+'</h3>'+q.a.map((a,i)=>'<button class="quiz-option" onclick="chooseAnswer('+i+')">'+escapeHTML(a)+'</button>').join('')+'<p id="quizFeedback" class="notice" style="display:none"></p><br><button id="nextQuestion" class="btn primary" style="display:none" onclick="nextQuestion()">Next question →</button>';
+}
+function chooseAnswer(i){
+ if(quizAnswered)return;
+ quizAnswered=true;
+ const q=quizQuestions[quizIndex];
+ const correct=i===q.correct;
+ if(correct)quizScore++;
+ $('quizFeedback').textContent=correct?'Correct! Well done 💗':'Not quite! Correct answer: '+q.a[q.correct];
+ $('quizFeedback').style.display='block';
+ document.querySelectorAll('.quiz-option').forEach((b,index)=>{
+  b.disabled=true;
+  if(index===q.correct)b.style.borderColor='#a16be8';
+ });
+ $('nextQuestion').style.display='inline-block';
+}
+function nextQuestion(){quizIndex++;renderQuiz()}
+function restartQuiz(){quizIndex=0;quizScore=0;renderQuiz()}
+function toggleTheme(){
+ const dark=document.body.dataset.theme!=='dark';
+ document.body.dataset.theme=dark?'dark':'light';
+ if(dark){
+  document.documentElement.style.setProperty('--bg','#201a29');
+  document.documentElement.style.setProperty('--panel','#30263a');
+  document.documentElement.style.setProperty('--text','#fff0fb');
+  document.documentElement.style.setProperty('--muted','#c1aec9');
+  document.documentElement.style.setProperty('--line','#49384f');
+  document.querySelector('.sidebar').style.background='#30263a';
+  document.querySelector('.sidebar').style.borderColor='#49384f';
+  document.querySelectorAll('.icon-btn').forEach(b=>b.style.background='#30263a');
+  document.querySelectorAll('.preview-box').forEach(b=>b.style.color='#35243b');
+  notify('Dark theme enabled 🌙');
+ }else{
+  ['bg','panel','text','muted','line'].forEach((v,i)=>{
+   const values=['#fff7fc','#fff','#35243b','#907d96','#f1e4f0'];
+   document.documentElement.style.setProperty('--'+v,values[i]);
+  });
+  document.querySelector('.sidebar').style.background='white';
+  document.querySelector('.sidebar').style.borderColor='var(--line)';
+  document.querySelectorAll('.icon-btn').forEach(b=>b.style.background='white');
+  notify('Light theme enabled ☀️');
+ }
+}
+renderHome();
+setTab('html');
+runCode();
+</script>
+</body>
+</html>
